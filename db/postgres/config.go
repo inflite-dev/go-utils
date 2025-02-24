@@ -1,6 +1,7 @@
 package postgres
 
 import (
+	"flag"
 	"fmt"
 )
 
@@ -14,6 +15,17 @@ type Config struct {
 	ApplicationName       string
 	ConnectTimeoutSeconds int
 	SSLMode               string
+}
+
+func (c *Config) RegisterFlags(f *flag.FlagSet) {
+	f.StringVar(&c.Host, "postgres.host", "localhost", "hostname to connect to")
+	f.IntVar(&c.Port, "postgres.port", 5432, "port to connect to")
+	f.StringVar(&c.Username, "postgres.username", "", "username to connect with")
+	f.StringVar(&c.Password, "postgres.password", "", "password to connect with")
+	f.StringVar(&c.Database, "postgres.database", "", "database to connect to")
+	f.StringVar(&c.ApplicationName, "postgres.application-name", "", "application name to connect with")
+	f.IntVar(&c.ConnectTimeoutSeconds, "postgres.connect-timeout-seconds", 5, "connection timeout in seconds")
+	f.StringVar(&c.SSLMode, "postgres.sslmode", "disable", "sslmode")
 }
 
 // BuildConnectionURI builds a connection string for lib/pq from Config.
